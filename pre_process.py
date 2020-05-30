@@ -2,15 +2,15 @@ from tqdm import tqdm
 import json
 import numpy as np
 
-vocab_dict_path = '/Users/lovever/Downloads/sgns.sogou.bigram'
+vocab_dict_path = '/home/liyongwei/sougou.bigram'
 
-demo_data_path = '/Users/lovever/Documents/人工智能导论/实验三-情感分析/实验数据/sina/sinanews.demo'
-test_data_path = '/Users/lovever/Documents/人工智能导论/实验三-情感分析/实验数据/sina/sinanews.test'
-train_data_path = '/Users/lovever/Documents/人工智能导论/实验三-情感分析/实验数据/sina/sinanews.train'
+demo_data_path = '/home/liyongwei/sina/sinanews.demo'
+test_data_path = '/home/liyongwei/sina/sinanews.test'
+train_data_path = '/home/liyongwei/sina/sinanews.train'
 
-transferred_demo_data_path = '/Users/lovever/Documents/人工智能导论/实验三-情感分析/实验数据/sina/demo.json'
-transferred_test_data_path = '/Users/lovever/Documents/人工智能导论/实验三-情感分析/实验数据/sina/test.json'
-transferred_train_data_path = '/Users/lovever/Documents/人工智能导论/实验三-情感分析/实验数据/sina/train.json'
+transferred_demo_data_path = '/home/liyongwei/sina/demo.json'
+transferred_test_data_path = '/home/liyongwei/sina/test.json'
+transferred_train_data_path = '/home/liyongwei/sina/train.json'
 
 
 def build_vocab_dict(file_path):
