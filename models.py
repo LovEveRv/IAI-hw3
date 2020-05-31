@@ -38,8 +38,12 @@ class TextCNN(nn.Module):
 
 class MyLSTM(nn.Module):
     
-    def __init__(self, input_dim=500, hidden_size=32):
+    def __init__(self, hidden_dim=256, num_layers=4, dropout=0.5, classes=8):
         super(MyLSTM, self).__init__()
+        self.lstm = nn.LSTM(embedding_dim, hidden_dim, bidirectional=True, num_layers=num_layers, dropout=dropout)
+        self.fc = nn.Linear(2 * hidden_dim, classes)
 
     def forward(self, x):
-        pass
+        out, _ = self.lstm(x)
+        out = self.fc(out[-1])
+        return out
