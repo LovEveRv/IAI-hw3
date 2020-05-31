@@ -44,7 +44,7 @@ def main():
     test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True, drop_last=True)
 
     # model = TextCNN(input_dim, 200)
-    model = MyLSTM(input_dim)
+    model = MyLSTM(input_dim, hidden_dim=8)
     model = model.to(device)
     optimizer = optim.Adam(model.parameters(), args.lr, weight_decay=args.wd)
     
