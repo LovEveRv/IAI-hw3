@@ -33,6 +33,16 @@ def get_label(counts):
     return int(np.array(data).argmax())
 
 
+def get_dist(total, counts):
+    data = []
+    tot = float(total.split(':')[1])
+    for i in counts:
+        cnt = int(i.split(':')[1])
+        data.append(cnt)
+    data = np.array(data) / tot
+    return data.tolist()
+
+
 def match(vocab_dict, text):
     ret = []
     for word in text:
@@ -52,6 +62,7 @@ def process_data(vocab_dict, file_path, save_path):
             data.append({
                 'id': info[0],
                 'label': get_label(info[2:]),
+                'dist': get_dist(info[1], info[2:]),
                 'text': match(vocab_dict, text)
             })
     

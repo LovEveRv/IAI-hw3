@@ -82,7 +82,7 @@ def calc_f1_score(pred, ans):
 
 def main():
     test_set = SinaDataset(path.join(args.source, 'test.json'), input_dim)
-    test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True, drop_last=True)
+    test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=False, drop_last=True)
 
     if args.model == 'textcnn':
         model = TextCNN(input_dim, 200)
