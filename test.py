@@ -7,7 +7,7 @@ import numpy as np
 from time import time
 from os import path
 from torch.utils.data import DataLoader
-from sklearn.metrics import f1_scores
+from sklearn.metrics import f1_score
 
 from dataset import SinaDataset
 from models import TextCNN, MyLSTM
@@ -73,9 +73,9 @@ def calc_f1_score(pred, ans):
     weighted: {:.4f}
     ======================
     """.format(
-        f1_scores(ans, pred, average='macro'),
-        f1_scores(ans, pred, average='micro'),
-        f1_scores(ans, pred, average='weighted')
+        f1_score(ans, pred, average='macro'),
+        f1_score(ans, pred, average='micro'),
+        f1_score(ans, pred, average='weighted')
     )
     print(format_str)
 
