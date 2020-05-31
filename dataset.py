@@ -15,4 +15,4 @@ class SinaDataset(Dataset):
 
     def __getitem__(self, index):
         cur = self.data[index]
-        return cur'name'], cur['label'], torch.tensor(cur['text']).float()
+        return cur['id'], cur['label'], torch.tensor(cur['text']).float()

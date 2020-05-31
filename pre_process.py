@@ -19,6 +19,8 @@ def build_vocab_dict(file_path):
         lines = f.readlines()
         for line in tqdm(lines):
             lst = line.split()
+            for i in range(1, len(lst)):
+                lst[i] = float(lst[i])
             vocab_dict[lst[0]] = lst[1:]
     return vocab_dict
 

@@ -20,7 +20,6 @@ def train_one_epoch(epoch, model, optimizer, loader, device, batch_size=128):
         correct = 0
         optimizer.zero_grad()
         output = model(texts)
-        output = F.log_softmax(output, dim=1)
         loss = F.nll_loss(output, labels)
         epoch_loss.append(loss.item())
         pred = output.argmax(dim=1, keepdim=True)
@@ -50,7 +49,6 @@ def validate(model, loader, device, batch_size=128):
         correct = 0
         with torch.no_grad():
             output = model(texts)
-            output = F.log_softmax(output, dim=1)
             loss = F.nll_loss(output, labels)
         val_loss.append(loss.item())
         pred = output.argmax(dim=1, keepdim=True)
