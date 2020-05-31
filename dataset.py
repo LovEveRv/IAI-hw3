@@ -29,6 +29,7 @@ class SinaDataset(Dataset):
 
     def __getitem__(self, index):
         cur = self.data[index]
+        dist = torch.tensor(cur['dist']).float()
         text = torch.tensor(cur['text']).float()
         text = pad_to_len(text, self.length)
-        return cur['id'], cur['label'], text
+        return dist, cur['label'], text

@@ -8,6 +8,7 @@ from time import time
 from os import path
 from torch.utils.data import DataLoader
 from sklearn.metrics import f1_score
+from scipy.stats import pearsonr
 
 from dataset import SinaDataset
 from models import TextCNN, MyLSTM
@@ -41,10 +42,12 @@ def test(model, loader, device, batch_size):
     val_accu = []
     predictions = []
     answers = []
+    true_dists = []
+    pred_dists = []
     model.eval()
 
     start_time = time()
-    for batch_id, (names, labels, texts) in enumerate(loader):
+    for batch_id, (dists, labels, texts) in enumerate(loader):
         texts = texts.to(device)
         labels = labels.to(device)
 
@@ -54,15 +57,19 @@ def test(model, loader, device, batch_size):
             loss = F.nll_loss(output, labels)
         val_loss.append(loss.item())
         pred = output.argmax(dim=1, keepdim=True)
+        
         predictions += pred.cpu().numpy().tolist()
         answers += labels.cpu().numpy().tolist()
+        true_dists += dists.cpu().numpy().tolist()
+        pred_dists += output.cpu().numpy().tolist()
+        
         correct += pred.eq(labels.view_as(pred)).sum().item()
         val_accu.append(correct * 1.0 / batch_size)
             
     print('Average Loss [{:.4f}]\tAccuracy [{:.4f}]\tCost {:.3f} seconds'.format(
         np.mean(val_loss), np.mean(val_accu), time() - start_time
     ))
-    return predictions, answers
+    return predictions, answers, pred_dists, true_dists
 
 
 def calc_f1_score(pred, ans):
@@ -78,6 +85,14 @@ def calc_f1_score(pred, ans):
         f1_score(ans, pred, average='weighted')
     )
     print(format_str)
+
+
+def calc_coef(pred, ans):
+    data_len = len(pred)
+    coef = 0.
+    for p, t in zip(pred, ans):
+        coef += pearsonr(p, t) / data_len
+    print('=======PEARSONR=======\n{:.4f}'.format(coef))
 
 
 def main():
@@ -96,8 +111,9 @@ def main():
     
     model = model.to(device)
     
-    pred, ans = test(model, test_loader, device, args.bs)
+    pred, ans, pred_dists, true_dists = test(model, test_loader, device, args.bs)
     calc_f1_score(pred, ans)
+    calc_coef(pred_dists, true_dists)
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ def train_one_epoch(epoch, model, optimizer, loader, device, batch_size=128):
     model.train()
 
     start_time = time()
-    for batch_id, (names, labels, texts) in enumerate(loader):
+    for batch_id, (_, labels, texts) in enumerate(loader):
         texts = texts.to(device)
         labels = labels.to(device)
 
@@ -47,7 +47,7 @@ def validate(model, loader, device, batch_size=128):
     model.eval()
 
     start_time = time()
-    for batch_id, (names, labels, texts) in enumerate(loader):
+    for batch_id, (_, labels, texts) in enumerate(loader):
         texts = texts.to(device)
         labels = labels.to(device)
 
