@@ -17,6 +17,7 @@ def train_one_epoch(epoch, model, optimizer, loader, device, batch_size=128):
     start_time = time()
     for batch_id, (names, labels, texts) in enumerate(loader):
         texts = texts.to(device)
+        labels = labels.to(device)
 
         correct = 0
         optimizer.zero_grad()
@@ -48,6 +49,7 @@ def validate(model, loader, device, batch_size=128):
     start_time = time()
     for batch_id, (names, labels, texts) in enumerate(loader):
         texts = texts.to(device)
+        labels = labels.to(device)
 
         correct = 0
         with torch.no_grad():
