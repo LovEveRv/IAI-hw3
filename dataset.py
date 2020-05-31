@@ -6,6 +6,8 @@ import json
 
 def pad_to_len(tensor, length):
     cur_len = tensor.shape[0]
+    if cur_len > length:
+        return tensor[:length, :]
     embed_dim = tensor.shape[1]
     zeros = torch.zeros((length - cur_len, embed_dim))
     return torch.cat((tensor, zeros), dim=0)
