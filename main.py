@@ -2,6 +2,7 @@ import argparse
 import torch
 import torch.optim as optim
 
+import json
 from os import path
 from torch.utils.data import DataLoader
 
@@ -25,6 +26,9 @@ parser.add_argument(
 parser.add_argument(
     '--cuda', action='store_true', default=False, help='use cuda for training'
 )
+parser.add_argument(
+    '--max-epoch', type=int, help='setting max epoch'
+)
 
 args = parser.parse_args()
 device = 'cuda' if args.cuda and torch.cuda.is_available() else 'cpu'
@@ -44,14 +48,35 @@ def main():
     optimizer = optim.Adam(model.parameters(), args.lr, weight_decay=args.wd)
     
     epoch = 0
+    train_loss = []
+    train_accu = []
+    valid_loss = []
+    valid_accu = []
     while True:
         epoch += 1
-        train_one_epoch(epoch, model, optimizer, train_loader, device, args.bs)
-        validate(model, test_loader, device, args.bs)
+        epoch_loss, epoch_accu = train_one_epoch(epoch, model, optimizer, train_loader, device, args.bs)
+        val_loss, val_accu = validate(model, test_loader, device, args.bs)
+        train_loss += epoch_loss
+        train_accu += epoch_accu
+        valid_loss += val_loss
+        valid_accu += val_accu
 
         print('saving...')
         torch.save(model.state_dict(), './saved_models/epoch' + str(epoch) + '.pkl')
         print()
+
+        if args.max_epoch and epoch >= max_epoch:
+            train_result = {
+                'batch-size': args.bs,
+                'train-loss': train_loss,
+                'train-accu': train_accu,
+                'valid-loss': valid_loss,
+                'valid-accu': valid_accu
+            }
+            with open('train-result.json', 'w', encoding='utf-8') as f:
+                json.dump(train_result, f)
+            
+            break
 
 
 if __name__ == '__main__':
