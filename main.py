@@ -40,6 +40,7 @@ def main():
     test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True)
 
     model = TextCNN()
+    model = model.to(device)
     optimizer = optim.Adam(model.parameters(), args.lr, args.wd)
     
     epoch = 0

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import nn.functional as F
+import torch.nn.functional as F
 
 embedding_dim = 300
 

@@ -9,7 +9,6 @@ log_interval = 1
 
 def train_one_epoch(epoch, model, optimizer, loader, device, batch_size=128):
     print('=======TRAINING EPOCH {}======='.format(epoch))
-    # We assume model has been set on device
     data_len = len(loader)
     epoch_loss = []
     epoch_accu = []
@@ -17,6 +16,8 @@ def train_one_epoch(epoch, model, optimizer, loader, device, batch_size=128):
 
     start_time = time()
     for batch_id, (names, labels, texts) in enumerate(loader):
+        texts = texts.to(device)
+
         correct = 0
         optimizer.zero_grad()
         output = model(texts)
@@ -46,6 +47,8 @@ def validate(model, loader, device, batch_size=128):
 
     start_time = time()
     for batch_id, (names, stories, refers) in enumerate(loader):
+        texts = texts.to(device)
+
         correct = 0
         with torch.no_grad():
             output = model(texts)
