@@ -1,14 +1,18 @@
 import torch
 from torch.utils.data import Dataset
 
+import json
+
 
 class SinaDataset(Dataset):
     
     def __init__(self, src_path):
-        pass
+        with open(src_path, 'r', encoding='utf-8') as f:
+            self.data = json.load(f)
 
     def __len__(self):
-        pass
+        return len(self.data)
 
     def __getitem__(self, index):
-        pass
+        cur = self.data[index]
+        return cur'name'], cur['label'], torch.tensor(cur['text']).float()
