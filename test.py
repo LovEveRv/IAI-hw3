@@ -35,7 +35,7 @@ classes = 8
 
 
 def test(model, loader, device, batch_size):
-    pprint('=======TESTING=======')
+    print('=======TESTING=======')
     data_len = len(loader)
     val_loss = []
     val_accu = []
@@ -54,8 +54,8 @@ def test(model, loader, device, batch_size):
             loss = F.nll_loss(output, labels)
         val_loss.append(loss.item())
         pred = output.argmax(dim=1, keepdim=True)
-        predictions += pred
-        answers += labels
+        predictions += pred.cpu().numpy().tolist()
+        answers += labels.cpu().numpy().tolist()
         correct += pred.eq(labels.view_as(pred)).sum().item()
         val_accu.append(correct * 1.0 / batch_size)
             
