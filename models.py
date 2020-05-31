@@ -57,11 +57,13 @@ class MLP(nn.Module):
 
     def __init__(self, input_dim=500, classes=8):
         super(MLP, self).__init__()
-        self.fc1 = nn.Linear(input_dim * embedding_dim, 4096)
+        self.dim = input_dim * embedding_dim
+        self.fc1 = nn.Linear(self.dim, 4096)
         self.fc2 = nn.Linear(4096, 256)
         self.fc3 = nn.Linear(256, classes)
 
     def forward(self, x):
+        x = x.reshape((-1, self.dim))
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)
