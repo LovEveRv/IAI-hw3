@@ -46,7 +46,7 @@ def validate(model, loader, device, batch_size=128):
     model.eval()
 
     start_time = time()
-    for batch_id, (names, stories, refers) in enumerate(loader):
+    for batch_id, (names, labels, texts) in enumerate(loader):
         texts = texts.to(device)
 
         correct = 0

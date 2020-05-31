@@ -36,12 +36,12 @@ classes = 8
 def main():
     train_set = SinaDataset(path.join(args.source, 'train.json'), input_dim)
     test_set = SinaDataset(path.join(args.source, 'test.json'), input_dim)
-    train_loader = DataLoader(train_set, batch_size=args.bs, shuffle=True)
-    test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True)
+    train_loader = DataLoader(train_set, batch_size=args.bs, shuffle=True, drop_last=True)
+    test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True, drop_last=True)
 
-    model = TextCNN()
+    model = TextCNN(input_dim)
     model = model.to(device)
-    optimizer = optim.Adam(model.parameters(), args.lr, args.wd)
+    optimizer = optim.Adam(model.parameters(), args.lr, weight_decay=args.wd)
     
     epoch = 0
     while True:

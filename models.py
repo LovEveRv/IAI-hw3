@@ -9,6 +9,9 @@ class TextCNN(nn.Module):
     
     def __init__(self, input_dim, filters=50, classes=8):
         super(TextCNN, self).__init__()
+        self.input_dim = input_dim
+        # self.filters = filters
+
         self.conv2 = nn.Conv2d(1, filters, (2, embedding_dim))
         self.conv3 = nn.Conv2d(1, filters, (3, embedding_dim))
         self.conv4 = nn.Conv2d(1, filters, (4, embedding_dim))
@@ -16,6 +19,8 @@ class TextCNN(nn.Module):
         self.fc = nn.Linear(3 * filters, classes)
 
     def forward(self, x):
+        x = x.view(-1, 1, self.input_dim, embedding_dim)
+
         x2 = F.relu(self.conv2(x)).squeeze(3)
         x3 = F.relu(self.conv3(x)).squeeze(3)
         x4 = F.relu(self.conv4(x)).squeeze(3)
