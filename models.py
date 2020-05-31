@@ -41,11 +41,12 @@ class MyLSTM(nn.Module):
     def __init__(self, input_dim, hidden_dim=256, num_layers=4, dropout=0.5, classes=8):
         super(MyLSTM, self).__init__()
         self.lstm = nn.LSTM(embedding_dim, hidden_dim, bidirectional=True, num_layers=num_layers, dropout=dropout, batch_first=True)
-        self.fc = nn.Linear(2 * hidden_dim, classes)
+        self.fc = nn.Linear(2 * input_dim * hidden_dim, classes)
 
     def forward(self, x):
         out, _ = self.lstm(x)
-        out = out[:, -1, :]
+        bs = x.shape[0]
+        out = out.view((bs, -1))
         out = self.fc(out)
         out = F.log_softmax(out, dim=1)
         return out
