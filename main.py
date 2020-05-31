@@ -7,7 +7,7 @@ from os import path
 from torch.utils.data import DataLoader
 
 from dataset import SinaDataset
-from models import TextCNN, MyLSTM
+from models import TextCNN, MyLSTM, MLP
 from train import train_one_epoch, validate 
 
 parser = argparse.ArgumentParser()

@@ -49,3 +49,21 @@ class MyLSTM(nn.Module):
         out = self.fc(out)
         out = F.log_softmax(out, dim=1)
         return out
+
+
+class MLP(nn.Module):
+
+    def __init__(self, input_dim=500, classes=8):
+        super(MLP, self).__init__()
+        self.fc1 = nn.Linear(input_dim, 1024)
+        self.fc2 = nn.Linear(1024, 256)
+        self.fc3 = nn.Linear(256, classes)
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        x = F.relu(x)
+        x = self.fc3(x)
+        out = F.log_softmax(x, dim=1)
+        return out
