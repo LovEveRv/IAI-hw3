@@ -47,7 +47,7 @@ class MyLSTM(nn.Module):
     def forward(self, x):
         out, _ = self.lstm(x)
         bs = x.shape[0]
-        out = out.view((bs, self.dim))
+        out = out.reshape((bs, self.dim))
         out = self.fc(out)
         out = F.log_softmax(out, dim=1)
         return out
@@ -57,8 +57,8 @@ class MLP(nn.Module):
 
     def __init__(self, input_dim=500, classes=8):
         super(MLP, self).__init__()
-        self.fc1 = nn.Linear(input_dim, 1024)
-        self.fc2 = nn.Linear(1024, 256)
+        self.fc1 = nn.Linear(input_dim * embedding_dim, 4096)
+        self.fc2 = nn.Linear(4096, 256)
         self.fc3 = nn.Linear(256, classes)
 
     def forward(self, x):
