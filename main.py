@@ -65,7 +65,7 @@ def main():
         torch.save(model.state_dict(), './saved_models/epoch' + str(epoch) + '.pkl')
         print()
 
-        if args.max_epoch and epoch >= max_epoch:
+        if args.max_epoch and epoch >= args.max_epoch:
             train_result = {
                 'batch-size': args.bs,
                 'train-loss': train_loss,
