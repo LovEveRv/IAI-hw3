@@ -43,7 +43,8 @@ def main():
     train_loader = DataLoader(train_set, batch_size=args.bs, shuffle=True, drop_last=True)
     test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True, drop_last=True)
 
-    model = TextCNN(input_dim, 200)
+    # model = TextCNN(input_dim, 200)
+    model = MyLSTM(input_dim)
     model = model.to(device)
     optimizer = optim.Adam(model.parameters(), args.lr, weight_decay=args.wd)
     
