@@ -4,9 +4,17 @@ from torch.utils.data import Dataset
 import json
 
 
+def pad_to_len(tensor, length):
+    cur_len = tensor.shape[0]
+    embed_dim = tensor.shape[1]
+    zeros = torch.zeros((length - cur_len, embed_dim))
+    return torch.cat((tensor, zeros), dim=0)
+
+
 class SinaDataset(Dataset):
     
-    def __init__(self, src_path):
+    def __init__(self, src_path, length):
+        self.length = length
         with open(src_path, 'r', encoding='utf-8') as f:
             self.data = json.load(f)
 
@@ -15,4 +23,6 @@ class SinaDataset(Dataset):
 
     def __getitem__(self, index):
         cur = self.data[index]
-        return cur['id'], cur['label'], torch.tensor(cur['text']).float()
+        text = torch.tensor(cur['text']).float()
+        text = pad_to_len(text, self.length)
+        return cur['id'], cur['label'], text

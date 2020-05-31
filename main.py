@@ -29,11 +29,13 @@ parser.add_argument(
 args = parser.parse_args()
 device = 'cuda' if args.cuda and torch.cuda.is_available() else 'cpu'
 print(device)
+input_dim = 500
+classes = 8
 
 
 def main():
-    train_set = SinaDataset(path.join(args.source, 'train.json'))
-    test_set = SinaDataset(path.join(args.source, 'test.json'))
+    train_set = SinaDataset(path.join(args.source, 'train.json'), input_dim)
+    test_set = SinaDataset(path.join(args.source, 'test.json'), input_dim)
     train_loader = DataLoader(train_set, batch_size=args.bs, shuffle=True)
     test_loader = DataLoader(test_set, batch_size=args.bs, shuffle=True)
 
